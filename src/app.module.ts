@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
-console.log(process.env.STAGE);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,7 +21,7 @@ console.log(process.env.STAGE);
         return {
           ssl:isProduction,
           extra:{
-            ssl:isProduction ? {rejecUnauthorized:false}:null,
+            ssl:isProduction ? {rejectUnauthorized: false}:null,
           },
         type: 'postgres',
         autoLoadEntities: true,
@@ -31,8 +31,11 @@ console.log(process.env.STAGE);
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [__dirname + "/../**/*.entity{.ts,.js}"],
-      }},
+        // entities: [__dirname + "/../**/*.entity{.ts,.js}"],
+      } 
+   
+    },
+    
     }),
     AuthModule,
   ],
